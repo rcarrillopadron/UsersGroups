@@ -48,6 +48,7 @@
 
         <environment names="Development">
             <script src="~/lib/jquery/dist/jquery.js"></script>
+            <script src="~/lib/angular/angular.js"></script>
             <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
             <script src="~/js/site.js" asp-append-version="true"></script>
         </environment>
@@ -55,6 +56,11 @@
             <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"
                     asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
                     asp-fallback-test="window.jQuery">
+            
+            </script>
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"
+                    asp-fallback-src="~/lib/angular/angular.js"
+                    asp-fallback-test="windows.angular">
             </script>
             <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/bootstrap.min.js"
                     asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
