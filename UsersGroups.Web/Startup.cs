@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNet.Builder;
+﻿using Microsoft.AspNet.Authentication.Facebook;
+using Microsoft.AspNet.Authentication.OAuth;
+using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Data.Entity;
@@ -70,11 +72,9 @@ namespace UsersGroups.Web
                 // For more details on creating database during deployment see http://go.microsoft.com/fwlink/?LinkID=615859
                 try
                 {
-                    using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
-                        .CreateScope())
+                    using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
                     {
-                        serviceScope.ServiceProvider.GetService<ApplicationDbContext>()
-                             .Database.Migrate();
+                        serviceScope.ServiceProvider.GetService<ApplicationDbContext>().Database.Migrate();
                     }
                 }
                 catch { }
@@ -85,8 +85,6 @@ namespace UsersGroups.Web
             app.UseStaticFiles();
 
             app.UseIdentity();
-
-            // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
 
             app.UseMvc(routes =>
             {

@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Data.Entity;
+using Microsoft.Data.Entity.Internal;
 using Microsoft.Extensions.Logging;
 using UsersGroups.Web.Models;
 using UsersGroups.Web.Services;
@@ -182,6 +183,9 @@ namespace UsersGroups.Web.Controllers
                 ViewData["ReturnUrl"] = returnUrl;
                 ViewData["LoginProvider"] = info.LoginProvider;
                 var email = info.ExternalPrincipal.FindFirstValue(ClaimTypes.Email);
+                var userId = info.ExternalPrincipal.GetUserId();
+                var userName = info.ExternalPrincipal.GetUserName();
+                string values = info.ExternalPrincipal.Claims.Select(x => x.Value).Join(",");
                 return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = email });
             }
         }
