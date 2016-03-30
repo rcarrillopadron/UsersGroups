@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.Data.Entity.Scaffolding.Metadata;
 
 namespace UsersGroups.Web.Models
 {
@@ -12,7 +10,7 @@ namespace UsersGroups.Web.Models
 
         [Required]
         public string Name { get; set; }
-        public ICollection<Meeting> Meetings { get; set; } = new List<Meeting>();
+        public ICollection<Meeting> Meetings { get; set; } = new HashSet<Meeting>();
     }
 
     public class Meeting
@@ -24,7 +22,10 @@ namespace UsersGroups.Web.Models
         public DateTime StartTime { get; set; }
         
         public int SpeakerId { get; set; }
-        public Speaker Speaker { get; set; }
+        public virtual Speaker Speaker { get; set; }
+
+        public virtual ICollection<Survey> Surveys { get; set; } = new HashSet<Survey>();
+        public virtual ICollection<Winner> Winners { get; set; } = new HashSet<Winner>();
     }
 
     public class Attendee
@@ -37,7 +38,8 @@ namespace UsersGroups.Web.Models
         [Required]
         public string Email { get; set; }
 
-        public ICollection<Response> Responses { get; set; } = new List<Response>();
+        public ICollection<Response> Responses { get; set; } = new HashSet<Response>();
+        public ICollection<Winner> Winners { get; set; } = new HashSet<Winner>();
     }
 
     public class Question
@@ -46,33 +48,31 @@ namespace UsersGroups.Web.Models
 
         [Required]
         public string QuestionDescription { get; set; }
-
-        public ICollection<Detail> Details { get; set; } = new List<Detail>();
-
         public int SurveyId { get; set; }
-        public Survey Survey { get; set; }
+
+        public virtual ICollection<Detail> Details { get; set; } = new HashSet<Detail>();
+        public virtual Survey Survey { get; set; }
     }
 
     public class Survey
     {
         public int SurveyId { get; set; }
-        public ICollection<Question> Questions { get; set; } = new List<Question>();
-
         public int MeetingId { get; set; }
-        public Meeting Meeting { get; set; }
+
+        public virtual ICollection<Question> Questions { get; set; } = new HashSet<Question>();
+        public virtual ICollection<Response> Responses { get; set; } = new HashSet<Response>();
+        public virtual Meeting Meeting { get; set; }
     }
 
     public class Response
     {
         public int ResponseId { get; set; }
-
-        public ICollection<Detail> SurveyResponseDetails { get; set; } = new List<Detail>();
-
         public int SurveyId { get; set; }
-        public Survey Survey { get; set; }
-
         public int AttendeeId { get; set; }
-        public Attendee Attendee { get; set; }
+        
+        public virtual ICollection<Detail> Details { get; set; } = new HashSet<Detail>();
+        public virtual Attendee Attendee { get; set; }
+        public virtual Survey Survey { get; set; }
     }
 
     public class Detail
@@ -82,10 +82,10 @@ namespace UsersGroups.Web.Models
         [Required]
         public string Answer { get; set; }
 
-        //public int QuestionId { get; set; }
-        //public Question Question { get; set; }
-
+        public int QuestionId { get; set; }
         public int ResponseId { get; set; }
+
+        public virtual Question Question { get; set; }
         public virtual Response Response { get; set; }
     }
 
@@ -95,19 +95,20 @@ namespace UsersGroups.Web.Models
 
         [Required]
         public string PrizeDescription { get; set; }
+
+        public virtual ICollection<Winner> Winners { get; set; } = new HashSet<Winner>();
     }
 
     public class Winner
     {
         public int WinnerId { get; set; }
-
-        public int MeetingId { get; set; }
-        public Meeting Meeting { get; set; }
-
         public int AttendeeId { get; set; }
-        public Attendee Attendee { get; set; }
-
+        public int MeetingId { get; set; }
         public int PrizeId { get; set; }
-        public Prize Prize { get; set; }
+
+
+        public virtual Attendee Attendee { get; set; }
+        public virtual Meeting Meeting { get; set; }
+        public virtual Prize Prize { get; set; }
     }
 }
