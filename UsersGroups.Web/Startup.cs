@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNet.Builder;
+﻿using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Data.Entity;
@@ -9,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.PlatformAbstractions;
 using UsersGroups.Web.Models;
-using UsersGroups.Web.Services;
 
 namespace UsersGroups.Web
 {
@@ -49,11 +46,8 @@ namespace UsersGroups.Web
             services.AddMvc();
 
             //AddScoped happens per request
-            services.AddScoped<UsersGroupsData>();
 
             //AddTransient happens per instance required
-            services.AddTransient<IEmailSender, AuthMessageSender>();
-            services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddTransient<ApplicationDbDataSeeder>();
         }
 
