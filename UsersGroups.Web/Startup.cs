@@ -74,7 +74,6 @@ namespace UsersGroups.Web
             }
 
             dataSeeder.EnsureSeedData();
-            app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
 
             app.UseStaticFiles();
 
