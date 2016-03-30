@@ -8,9 +8,9 @@ namespace UsersGroups.Web.Models
     {
         public ApplicationDbContext()
         {
-            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
+
         public virtual DbSet<Attendee> Attendees { get; set; }
         public virtual DbSet<Detail> Details { get; set; }
         public virtual DbSet<Meeting> Meetings { get; set; }
@@ -20,8 +20,7 @@ namespace UsersGroups.Web.Models
         public virtual DbSet<Speaker> Speakers { get; set; }
         public virtual DbSet<Survey> Surveys { get; set; }
         public virtual DbSet<Winner> Winners { get; set; }
-
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
