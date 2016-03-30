@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.Data.Entity;
+﻿using Microsoft.Data.Entity;
 using Microsoft.Data.Entity.Metadata;
 
 namespace UsersGroups.Web.Models
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext()
         {
