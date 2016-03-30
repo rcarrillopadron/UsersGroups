@@ -18,19 +18,22 @@ namespace UsersGroups.Web.Models
             {
                 var speaker = new Speaker {Name = "Tim Rayburn"};
                 var meeting = new Meeting {Speaker = speaker, Topic = "Dallas C# Sig", StartTime = GetNextMeetingTime() };
-                var question1 = new Question {QuestionDescription = "What did you think about the presentation today?"};
-                var question2 = new Question {QuestionDescription = "What topics would you like to see covered in future presentations?"};
-                var question3 = new Question { QuestionDescription = "Any suggestions to improve the SIG?" };
+                var survey = new Survey { Meeting = meeting };
+                var question1 = new Question {QuestionDescription = "What did you think about the presentation today?", Survey = survey};
+                var question2 = new Question {QuestionDescription = "What topics would you like to see covered in future presentations?", Survey = survey};
+                var question3 = new Question {QuestionDescription = "Any suggestions to improve the SIG?", Survey = survey};
                 var attendee1 = new Attendee {Fullname = "Roberto Carrillo", Email = "Roberto.Carrillo@Improving.com"};
                 var attendee2 = new Attendee {Fullname = "Michael Dudley", Email = "Michael.Dudley@Improving.com"};
 
                 _context.Add(speaker);
                 _context.Add(meeting);
+                _context.Add(survey);
                 _context.Add(question1);
                 _context.Add(question2);
                 _context.Add(question3);
                 _context.Add(attendee1);
                 _context.Add(attendee2);
+                _context.SaveChanges();
             }
         }
 

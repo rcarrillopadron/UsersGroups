@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.PlatformAbstractions;
 using UsersGroups.Web.Models;
+using UsersGroups.Web.Services;
 
 namespace UsersGroups.Web
 {
@@ -41,6 +42,9 @@ namespace UsersGroups.Web
             services.AddMvc();
 
             //AddScoped happens per request
+
+            //AddSingleton
+            services.AddSingleton<IMeetingRepository, MeetingRepository>();
 
             //AddTransient happens per instance required
             services.AddTransient<ApplicationDbDataSeeder>();
@@ -78,7 +82,6 @@ namespace UsersGroups.Web
             app.UseStaticFiles();
 
             app.UseNodeModules(appEnvironment);
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
