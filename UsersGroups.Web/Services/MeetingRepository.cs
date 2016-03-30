@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
+using Microsoft.Data.Entity;
+using Microsoft.Data.Entity.Infrastructure;
 using UsersGroups.Web.Models;
 
 namespace UsersGroups.Web.Services

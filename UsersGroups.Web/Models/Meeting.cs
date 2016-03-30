@@ -14,7 +14,6 @@ namespace UsersGroups.Web.Models
         
         public int SpeakerId { get; set; }
         public virtual Speaker Speaker { get; set; }
-
         public virtual ICollection<Survey> Surveys { get; set; } = new HashSet<Survey>();
         public virtual ICollection<Winner> Winners { get; set; } = new HashSet<Winner>();
     }
