@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNet.Authentication.Facebook;
-using Microsoft.AspNet.Authentication.OAuth;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -7,6 +7,7 @@ using Microsoft.Data.Entity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.PlatformAbstractions;
 using UsersGroups.Web.Models;
 using UsersGroups.Web.Services;
 
@@ -36,7 +37,6 @@ namespace UsersGroups.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
             services.AddEntityFramework()
                 .AddSqlServer()
                 .AddDbContext<ApplicationDbContext>(options =>
@@ -48,13 +48,17 @@ namespace UsersGroups.Web
 
             services.AddMvc();
 
-            // Add application services.
+            //AddScoped happens per request
+            services.AddScoped<UsersGroupsData>();
+
+            //AddTransient happens per instance required
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddTransient<ApplicationDbDataSeeder>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationEnvironment appEnvironment, ApplicationDbDataSeeder dataSeeder)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -80,11 +84,13 @@ namespace UsersGroups.Web
                 catch { }
             }
 
+            dataSeeder.EnsureSeedData();
             app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
 
             app.UseStaticFiles();
 
             app.UseIdentity();
+            app.UseNodeModules(appEnvironment);
 
             app.UseMvc(routes =>
             {
